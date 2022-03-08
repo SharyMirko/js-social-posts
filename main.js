@@ -72,7 +72,8 @@ const postContainer = document.getElementById('container');
 const arrLikedPosts = [];
 // creo i post
 for ( let i = 0; i < posts.length; i++) {
-   
+   let time = posts[i].created
+   let timeSplit = time.split('-')
     postContainer.innerHTML += `<div class="post">
     <div class="post__header">
         <div class="post-meta">                    
@@ -81,7 +82,9 @@ for ( let i = 0; i < posts.length; i++) {
             </div>
             <div class="post-meta__data">
                 <div class="post-meta__author">${posts[i].author.name}</div>
-                <div class="post-meta__time">${posts[i].created}</div>
+                <div class="post-meta__time">
+                ${timeSplit[2]}-${timeSplit[1]}-${timeSplit[0]}
+                </div>
             </div>                    
         </div>
     </div>
