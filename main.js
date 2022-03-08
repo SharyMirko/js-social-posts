@@ -1,4 +1,3 @@
-
 const posts = [
     {
         "id": 1,
@@ -69,7 +68,8 @@ BONUS
 2. Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
 3. Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone. */
 
-const postContainer = document.getElementById('container')
+const postContainer = document.getElementById('container');
+const arrLikedPosts = [];
 // creo i post
 for ( let i = 0; i < posts.length; i++) {
     postContainer.innerHTML += `<div class="post">
@@ -91,22 +91,58 @@ for ( let i = 0; i < posts.length; i++) {
     <div class="post__footer">
         <div class="likes js-likes">
             <div class="likes__cta">
-                <a class="like-button  js-like-button" href="#" data-postid="1">
+                <a class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                     <span class="like-button__label">Mi Piace</span>
                 </a>
             </div>
             <div class="likes__counter">
-                Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
+                Piace a <b id="like-counter-${i}" class="js-likes-counter">${posts[i].likes}</b> persone
             </div>
         </div> 
     </div>            
 </div>`
 const btnLike = document.querySelectorAll('.like-button');
 btnLike.forEach(bottone => {
-    bottone.addEventListener('click', function(){
-        bottone.classList.toggle('like-button--liked')
-    })
+    bottone.addEventListener('click', likePost)
 })
 }
 
+
+
+function idChecker(arr, id) {
+    let i = 0;
+    while (i < arr.length) {
+      if (arr[i] === id) {
+        arr.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+    return arr;
+  }
+
+  function likePost(event){
+    let addLike = posts.filter(res=>res.id==this.dataset.postid).map(value=>value.likes)
+    console.log(this)
+    
+    if(this.classList.contains('like-button--liked')){
+        this.classList.remove('like-button--liked')
+        addLike--
+        posts[this.dataset.postid -1].likes += -1
+        document.getElementById(`like-counter-${this.dataset.postid -1}`).innerHTML = posts[this.dataset.postid -1].likes
+    } else {
+        this.classList.add('like-button--liked')
+        posts[this.dataset.postid -1].likes += 1
+        document.getElementById(`like-counter-${this.dataset.postid -1}`).innerHTML = posts[this.dataset.postid -1].likes
+    }
+    
+    if(arrLikedPosts.includes(this.dataset.postid)) {
+        idChecker(arrLikedPosts, this.dataset.postid)
+        //rimuovo
+    } else {
+        arrLikedPosts.push(this.dataset.postid)
+        //aggiungo
+    }
+    event.preventDefault();
+} 
