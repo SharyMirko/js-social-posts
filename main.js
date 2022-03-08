@@ -72,6 +72,7 @@ const postContainer = document.getElementById('container');
 const arrLikedPosts = [];
 // creo i post
 for ( let i = 0; i < posts.length; i++) {
+   
     postContainer.innerHTML += `<div class="post">
     <div class="post__header">
         <div class="post-meta">                    
@@ -106,6 +107,11 @@ const btnLike = document.querySelectorAll('.like-button');
 btnLike.forEach(bottone => {
     bottone.addEventListener('click', likePost)
 })
+const authorPic = document.querySelector('.post-meta__icon')
+if (posts[i].author.image == null) {
+    authorPic.innerHTML = 'ciao'
+}
+
 }
 
 
