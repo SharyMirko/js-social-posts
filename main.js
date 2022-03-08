@@ -107,9 +107,13 @@ const btnLike = document.querySelectorAll('.like-button');
 btnLike.forEach(bottone => {
     bottone.addEventListener('click', likePost)
 })
-const authorPic = document.querySelector('.post-meta__icon')
+const authorPic = document.querySelectorAll('.post-meta__icon')
 if (posts[i].author.image == null) {
-    authorPic.innerHTML = 'ciao'
+    let nameAuth = posts[i].author.name;
+    let name = nameAuth.split(' ')
+    console.log(nameAuth)
+    authorPic[i].innerHTML = `<div class="profile-pic-default"><span>${name[0][0]}${name[1][0]}</span></div>`
+    
 }
 
 }
